@@ -28,8 +28,10 @@ import android.app.Activity;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.content.res.XResources;
 import android.graphics.Bitmap;
@@ -82,6 +84,7 @@ public class ModLockscreen {
     private static final String CLASS_KG_ACTIVITY_LAUNCHER = CLASS_PATH + ".KeyguardActivityLauncher";
     private static final boolean DEBUG = false;
     private static final boolean DEBUG_ARC = false;
+    private static final boolean DEBUG_KIS = false;
 
     private static final int STATUSBAR_DISABLE_RECENT = 0x01000000;
     private static final int STATUSBAR_DISABLE_NOTIFICATION_TICKER = 0x00080000;
@@ -109,6 +112,7 @@ public class ModLockscreen {
     private static int mPrevGlowPadState;
     private static PointF mStartGlowPadPoint;
     private static float mDisplayDensity;
+    private static boolean mReceiverRegistered;
 
     // Battery Arc
     private static HandleDrawable mHandleDrawable;
@@ -123,6 +127,16 @@ public class ModLockscreen {
     private static void log(String message) {
         XposedBridge.log(TAG + ": " + message);
     }
+
+    private static BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(KeyguardImageService.ACTION_KEYGUARD_IMAGE_UPDATED)) {
+                // do nothing for now...
+                if (DEBUG_KIS) log("ACTION_KEYGUARD_IMAGE_UPDATED: custom wallpaper set");
+            }
+        }
+    };
 
     public static void initZygote(final XSharedPreferences prefs) {
         try {
@@ -183,6 +197,11 @@ public class ModLockscreen {
                             GravityBoxSettings.LOCKSCREEN_BG_DEFAULT);
 
                     Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                    if (!mReceiverRegistered) {
+                        IntentFilter intentFilter = new IntentFilter();
+                        intentFilter.addAction(KeyguardImageService.ACTION_KEYGUARD_IMAGE_UPDATED);
+                        context.registerReceiver(mBroadcastReceiver, intentFilter);
+                    }
                     if (context != null && mGbContext == null) {
                         mGbContext = context.createPackageContext(GravityBox.PACKAGE_NAME, 0);
                     }
@@ -201,6 +220,10 @@ public class ModLockscreen {
                         } else if (bgType.equals(GravityBoxSettings.LOCKSCREEN_BG_IMAGE)) {
                             String wallpaperFile = mGbContext.getFilesDir() + "/lockwallpaper";
                             customBg = BitmapFactory.decodeFile(wallpaperFile);
+                        } else if (bgType.equals(GravityBoxSettings.LOCKSCREEN_BG_LAST_SCREEN)) {
+                            // TODO: wait until intent is received
+                            String kisImageFile = mGbContext.getFilesDir() + "/kis_image.png";
+                            customBg = BitmapFactory.decodeFile(kisImageFile);
                         }
                         if (customBg != null) {
                             if (mPrefs.getBoolean(GravityBoxSettings.PREF_KEY_LOCKSCREEN_BACKGROUND_BLUR_EFFECT, false)) {
