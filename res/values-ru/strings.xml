@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+ -<?xml version="1.0" encoding="utf-8"?>
 <!--
  * Copyright (C) 2013 Peter Gregus for GravityBox Project (C3C076@xda)
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -1018,7 +1018,7 @@
     <string name="pref_smart_radio_power_saving_mode_title">Экономный сетевой режим</string>
     <string name="pref_smart_radio_screen_off_title">При отключении экрана</string>
     <string name="pref_smart_radio_screen_off_summary">Активация экономного режима при отключении экрана, независимо от того, включена или выключена мобильная передача данных</string>
-    <string name="pref_smart_radio_ignore_locked_title">Игнорировать при блокировке</string>
+	<string name="pref_smart_radio_ignore_locked_title">Игнорировать при блокировке</string>
     <string name="pref_smart_radio_ignore_locked_summary">При включении экрана экономный режим не активируется, пока экран не будет разблокирован</string>
 
     <!-- Lockscreen: custom carrier text -->
@@ -1029,5 +1029,24 @@
     <!-- Battery charged sound -->
     <string name="pref_battery_charged_sound_title">Оповещение о зарядке</string>
     <string name="pref_battery_charged_sound_summary">Воспроизведение звукового оповещения, когда батарея полностью заряжена</string>
+
+    <!-- Pie long-press actions -->
+    <string name="pref_cat_pie_long_press_title">Действия при удержании</string>
+    <string name="pref_pie_back_longpress_title">Назад</string>
+    <string name="pref_pie_home_longpress_title">Домой</string>
+    <string name="pref_pie_recents_longpress_title">Недавние</string>
+    <string name="pref_pie_search_longpress_title">Поиск</string>
+    <string name="pref_pie_menu_longpress_title">Меню</string>
+    <string name="pref_pie_app_longpress_title">Запуск приложений</string>
+
+    <!-- Translucent decor options -->
+    <string name="pref_translucent_decor_title">Полупрозрачность</string>
+    <string name="pref_translucent_decor_default">По умолчанию</string>
+    <string name="pref_translucent_decor_enabled">Включена</string>
+    <string name="pref_translucent_decor_disabled">Отключена</string>
+
+    <!-- Pulse notification delay -->
+    <string name="pref_pulse_notification_delay_title">Задержка индикации</string>
+    <string name="pref_pulse_notification_delay_summary">Необходима перезагрузка</string>
 
 </resources>
