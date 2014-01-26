@@ -480,8 +480,8 @@
     <string name="pref_screen_dim_level_summary">Яркость для приглушенной подсветки - когда экран почти выключился (необходима перезагрузка)</string>
 
     <!-- Device type -->
-    <string name="device_phone">телефон</string>
-    <string name="device_tablet">планшет</string>
+    <string name="device_phone">Телефон</string>
+    <string name="device_tablet">Планшет</string>
 
     <!-- Brightness preference category -->
     <string name="pref_cat_brightness_title">Настройки яркости</string>
